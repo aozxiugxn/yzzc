@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直充</title>
+    <link href="http://test.cashbook.work/layui/css/layui.css" rel="stylesheet" />
+    <script src="http://test.cashbook.work/layui/layui.js"></script>
+    <script src="http://test.cashbook.work/layui/cryptojs-aes.js"></script>
+    <style type="text/css">
+        .layui-form {
+            width: 100%;
+        }
+
+        .layui-form-checkbox {
+            width: 130px;
+            height: 32px;
+            margin: 4px;
+        }
+
+        body {
+            text-align: center;
+            margin: 32px 5%;
+        }
+
+        .layui-form-label {
+            background-color: #d4ece97f;
+            text-align: center;
+        }
+
+        .layui-btn {
+            width: 100%;
+        }
+
+        .layui-input {
+            border: 1px solid #d4ece97f;
+        }
+
+        .message-box {
+            height: 32px;
+            line-height: 32px;
+            border-top: 1px solid #a3c176d9;
+            border-bottom: 1px solid #a3c176d9;
+            color: #e92727;
+            font-size: 16px;
+        }
+
+        .layui-bg-green {
+            width: 100%;
+            height: 28px;
+            text-align: center;
+            line-height: 28px;
+        }
+
+        .btn-send {
+            width: 100px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+
+        .namelabel {
+            width: 120px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+<h1>宇宙直充</h1>
+    <form class="layui-form" action="">
+        
+
+<div class="layui-form-item ">
+    <div class="layui-block">
+        <label class="layui-form-label">账号[手机号]</label>
+        <div class="layui-input-block">
+            <input type="text" lay-verify="required" name="phone" class="layui-input">
+            <button type="submit" class="layui-btn layui-btn-primary layui-border-orange btn-send" lay-submit="" lay-filter="btn_send">发送短信</button>
+        </div>
+    </div>
+</div>
+<div class="layui-form-item login-phone">
+    <div class="layui-block">
+        <label class="layui-form-label">密码[验证码]</label>
+        <div class="layui-input-block">
+            <input type="password" name="code" class="layui-input">
+        </div>
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-block">
+        <label class="layui-form-label">渠道</label>
+        <div class="layui-input-block">
+            <input type="radio" name="platform" lay-filter="platform" value="and-phone" title="vivo验证码" checked="">
+            <input type="radio" name="platform" lay-filter="platform" value="and-account" title="vivo账号">
+            <input type="radio" name="platform" lay-filter="platform" value="and-phone-gw" title="安卓[官网]验证码" checked="">
+            <input type="radio" name="platform" lay-filter="platform" value="and-account-gw" title="安卓[官网]账号">
+            <input type="radio" name="platform" lay-filter="platform" value="ios-phone" title="苹果验证码">
+            <input type="radio" name="platform" lay-filter="platform" value="ios-account" title="苹果账号">
+            <input type="radio" name="platform" lay-filter="platform" value="and-4399" title="4399账号">
+            <input type="radio" name="platform" lay-filter="platform" value="and-4399" title="7723账号">
+    
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'element'], function () {
+        var form = layui.form,
+            $ = layui.$;
+        form.on('submit(btn_send)', function (data) {
+            layer.confirm('是否发送短信？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+
+                $.ajax({
+                    url: 'http://api.joyapi.com/apporder/addAndroidLog',
+                    async: true,
+                    type: 'POST',
+                    data: { phone: data.field.phone, platform: data.field.platform, isTask: true },
+                    beforeSend: function (xhr) {
+                        layer.load(1, {
+                            shade: [0.1, '#fff'] //0.1透明度的白色背景
+                        });
+                    },
+                    success: function (res) {
+                        layer.alert(res, { icon: 1 });
+                        layer.closeAll('loading');
+                    },
+                    error: function () {
+                        layer.alert("网络状态异常", { icon: 2 });
+                        layer.closeAll('loading');
+                    }
+                });
+            });
+            return false;
+        });
+    });
+</script>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" style="border-radius:15px;width:100%" class="layui-btn layui-btn-danger" lay-submit="" lay-filter="btn_set">提交存档</button>
+            </div>
+        </div>
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                    <li>角色</li>
+                    <li>物品</li>
+                    <li>功能</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100px;">
+                    <div class="layui-tab-item">
+                            <input class="checkbox-line checkbox-31" type="checkbox" lay-filter="checkall" lay-skin="primary" title="全选">
+                                                            <input class="checkbox-line checkbox-31" type="checkbox" name="1969" lay-skin="primary" title="艾斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1962" lay-skin="primary" title="戴拿">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1869" lay-skin="primary" title="高斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1861" lay-skin="primary" title="雷欧">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1897" lay-skin="primary" title="迪迦">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1923" lay-skin="primary" title="奈克瑟斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1893" lay-skin="primary" title="诺亚">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1810" lay-skin="primary" title="梦比优斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1918" lay-skin="primary" title="赛罗">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1900" lay-skin="primary" title="银河">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1910" lay-skin="primary" title="艾克斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1935" lay-skin="primary" title="巴尔坦星人">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1948" lay-skin="primary" title="噶次星人">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1949" lay-skin="primary" title="马格马星人">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1950" lay-skin="primary" title="黑暗扎基">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1825" lay-skin="primary" title="镜子骑士">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1924" lay-skin="primary" title="红莲火焰">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1916" lay-skin="primary" title="詹伯特">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1888" lay-skin="primary" title="贝利亚">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1960" lay-skin="primary" title="芝顿">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1957" lay-skin="primary" title="金古桥">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1971" lay-skin="primary" title="哥莫拉">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1880" lay-skin="primary" title="雷德王">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1872" lay-skin="primary" title="泰兰特">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1976" lay-skin="primary" title="哥尔赞">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1974" lay-skin="primary" title="欧布">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1854" lay-skin="primary" title="魔格大蛇">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1928" lay-skin="primary" title="伽古拉">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1819" lay-skin="primary" title="维克特利">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1946" lay-skin="primary" title="佐格">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1821" lay-skin="primary" title="怨灵鬼恋鬼">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1912" lay-skin="primary" title="加拉特龙">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1836" lay-skin="primary" title="风之魔王兽">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1894" lay-skin="primary" title="火之魔王兽">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1975" lay-skin="primary" title="土之魔王兽">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1889" lay-skin="primary" title="水之魔王兽">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1927" lay-skin="primary" title="雷杰多">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1815" lay-skin="primary" title="杰斯提斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1818" lay-skin="primary" title="骷髅哥莫拉">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1908" lay-skin="primary" title="雷霆杀手">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1816" lay-skin="primary" title="捷德">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1922" lay-skin="primary" title="配丹尼姆芝顿">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1979" lay-skin="primary" title="加拉特龙王">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1967" lay-skin="primary" title="奇美拉贝洛斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1902" lay-skin="primary" title="泰迦">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1811" lay-skin="primary" title="罗索">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1942" lay-skin="primary" title="布鲁">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1952" lay-skin="primary" title="火焰怪兽">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1940" lay-skin="primary" title="暗黑欧布">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1941" lay-skin="primary" title="格力乔">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1939" lay-skin="primary" title="金色罗布">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1891" lay-skin="primary" title="鲁格赛特">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1830" lay-skin="primary" title="托雷基亚">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1958" lay-skin="primary" title="赛迦">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1990" lay-skin="primary" title="风马">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1907" lay-skin="primary" title="泰塔斯">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1823" lay-skin="primary" title="奥特之王">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1981" lay-skin="primary" title="泽塔">
+                                    <input class="checkbox-line checkbox-31" type="checkbox" name="1904" lay-skin="primary" title="格里扎">
+                                    <div class="layui-tab-item">
+                            <input class="checkbox-line checkbox-30" type="checkbox" lay-filter="checkall" lay-skin="primary" title="全选">
+                                                            <input class="checkbox-line checkbox-30" type="checkbox" name="1513" lay-skin="primary" title="踏板">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1514" lay-skin="primary" title="钻石21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1515" lay-skin="primary" title="金币21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1516" lay-skin="primary" title="体力21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1517" lay-skin="primary" title="荣誉币21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1518" lay-skin="primary" title="经验21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1519" lay-skin="primary" title="公会货币21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1520" lay-skin="primary" title="等离子精魄21亿">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1510" lay-skin="primary" title="普通奥特核心">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1511" lay-skin="primary" title="优质奥特核心">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1512" lay-skin="primary" title="强化奥特核心">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1508" lay-skin="primary" title="传说奥特核心">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1509" lay-skin="primary" title="低级体力回复器">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1504" lay-skin="primary" title="高级体力回复器">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1505" lay-skin="primary" title="二星进阶卷">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1506" lay-skin="primary" title="三星进阶卷">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1507" lay-skin="primary" title="四星进阶卷">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1497" lay-skin="primary" title="五星直升卷">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1498" lay-skin="primary" title="六星直升卷">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1499" lay-skin="primary" title="能量核心">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1500" lay-skin="primary" title="火花水晶">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1501" lay-skin="primary" title="扫荡卷">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1502" lay-skin="primary" title="传说英雄选择器">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1503" lay-skin="primary" title="万能碎片">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1490" lay-skin="primary" title="羁绊之核">
+                                    <input class="checkbox-line checkbox-30" type="checkbox" name="1491" lay-skin="primary" title="">
+                                    </div>
+                    <div class="layui-tab-item">
+                            <input class="checkbox-line checkbox-29" type="checkbox" lay-filter="checkall" lay-skin="primary" title="全选">
+                                                            <input class="checkbox-line checkbox-29" type="checkbox" name="1643" lay-skin="primary" title="一键解封">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1644" lay-skin="primary" title="一键彩妆">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1645" lay-skin="primary" title="一键30级">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1640" lay-skin="primary" title="角色一键80级">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1641" lay-skin="primary" title="角色一键6星">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1642" lay-skin="primary" title="一键满羁绊">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1635" lay-skin="primary" title="一键六星变身器">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1636" lay-skin="primary" title="一键至尊12">
+                                    <input class="checkbox-line checkbox-29" type="checkbox" name="1637" lay-skin="primary" title="清空数据">
+
+                      </div>
+                    <div class="layui-tab-item">
+                                                            <div class="layui-inline">
+                                            <label class="layui-form-label namelabel">最高分数</label>
+                                        <input type="number" style="width:200px;" name="606" class="layui-input">
+                                    </div>
+                                    <div class="layui-inline">
+                                            <label class="layui-form-label namelabel">最高排名</label>
+                                        <input type="number" style="width:200px;" name="609" class="layui-input">
+                                    </div>
+                                    <div class="layui-inline">
+                                            <label class="layui-form-label namelabel">最高段位</label>
+                                        <input type="number" style="width:200px;" name="608" class="layui-input">
+                                    </div>
+                                    <div class="layui-inline">
+                                            <label class="layui-form-label namelabel">人物等级</label>
+                                        <input type="number" style="width:200px;" name="607" class="layui-input">
+                                    </div>
+                    </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        layui.use(['form', 'element'], function () {
+            var form = layui.form,
+                $ = layui.$;
+
+            form.on('submit(btn_set)', function (data) {
+                layer.confirm('确认提交？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function () {
+                    $.ajax({
+                        url: 'http://test.cashbook.work/Tool/Subway_set',
+                        async: true,
+                        type: 'POST',
+                        data: { data: JSON.stringify(data.field) },
+                        beforeSend: function (xhr) {
+                            layer.load(1, {
+                                shade: [0.1, '#fff'] //0.1透明度的白色背景
+                            });
+                        },
+                        success: function (res) {
+                            layer.alert(res);
+                            setTimeout(() => {
+                                window.location.href = 'http://test.cashbook.work/Tool/Search';
+                            }, 1000)
+                        },
+                        error: function () {
+                            layer.alert("提交成功，请5分钟后上号查看。", { icon: 1 });
+                            layer.closeAll('loading');
+                        }
+                    });
+                });
+
+                return false;
+            });
+
+            form.on('checkbox(checkall)', function (data) {
+                var checked = this.checked;
+                var name = this.className;
+                var child = $("input[type='checkbox']");
+                child.each(function (index, item) {
+                    if (item.className === name) {
+                        item.checked = checked;
+                    }
+                });
+                form.render('checkbox');
+            });
+        });
+    </script>
+</body>
+</html>
